@@ -106,4 +106,39 @@ export const localProgressRepository: ProgressRepository = {
       console.error('[LocalProgressRepository] Failed to reset progress:', error);
     }
   },
+
+  resetLesson(lessonId: string): void {
+    const progress = this.getProgress();
+    if (progress.lessons[lessonId]) {
+      delete progress.lessons[lessonId];
+      if (progress.lastLessonId === lessonId) {
+        progress.lastLessonId = null;
+      }
+      progress.lastActivityAt = new Date().toISOString();
+      this.saveProgress(progress);
+    }
+  },
+
+  resetLevel(levelId: string): void {
+    const progress = this.getProgress();
+    let changed = false;
+    
+    for (const [lessonId, lessonData] of Object.entries(progress.lessons)) {
+      if (lessonData.levelId === levelId) {
+        delete progress.lessons[lessonId];
+        changed = true;
+      }
+    }
+    
+    if (progress.lastLevelId === levelId) {
+      progress.lastLevelId = null;
+      progress.lastLessonId = null;
+      changed = true;
+    }
+    
+    if (changed) {
+      progress.lastActivityAt = new Date().toISOString();
+      this.saveProgress(progress);
+    }
+  },
 };

@@ -23,6 +23,8 @@ interface ProgressActions {
   completeLesson: (lessonId: string) => void;
   saveQuizAttempt: (attempt: QuizAttempt) => void;
   resetProgress: () => void;
+  resetLesson: (lessonId: string) => void;
+  resetLevel: (levelId: string) => void;
   getLessonProgress: (lessonId: string) => LessonProgress | null;
   getCourseSummary: () => CourseProgressSummary;
   getLevelProgress: (levelId: string) => LevelProgress;
@@ -72,6 +74,16 @@ export const useProgressStore = create<ProgressState & ProgressActions>((set, ge
         lastLevelId: null,
       },
     });
+  },
+
+  resetLesson: (lessonId) => {
+    localProgressRepository.resetLesson(lessonId);
+    set({ progress: localProgressRepository.getProgress() });
+  },
+
+  resetLevel: (levelId) => {
+    localProgressRepository.resetLevel(levelId);
+    set({ progress: localProgressRepository.getProgress() });
   },
 
   getLessonProgress: (lessonId) => {

@@ -7,14 +7,17 @@ import { noiCourse } from '@/domain/content';
 import { useProgressStore } from '@/presentation/features/courses/store/useProgressStore';
 
 export function useCourseViewModel() {
-  const { hydrate, isHydrated, getCourseSummary, getLevelProgress } = useProgressStore();
+  const { hydrate, isHydrated, getCourseSummary, getLevelProgress, progress } = useProgressStore();
 
   useEffect(() => {
     if (!isHydrated) hydrate();
   }, [isHydrated, hydrate]);
 
   const course = noiCourse;
-  const summary = useMemo(() => getCourseSummary(), [getCourseSummary]);
+
+  // `progress` is the reactive state — without it as a dep, these memos never recompute
+  // because getCourseSummary/getLevelProgress are stable function references in Zustand
+  const summary = useMemo(() => getCourseSummary(), [getCourseSummary, progress]);
 
   const levelsWithProgress = useMemo(
     () =>
@@ -22,7 +25,7 @@ export function useCourseViewModel() {
         ...level,
         progress: getLevelProgress(level.id),
       })),
-    [course.levels, getLevelProgress]
+    [course.levels, getLevelProgress, progress]
   );
 
   return {

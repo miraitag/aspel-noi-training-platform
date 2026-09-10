@@ -28,4 +28,10 @@ export interface ProgressRepository {
 
   /** Reset all progress */
   resetProgress(): void;
+
+  /** Reset a specific lesson */
+  resetLesson(lessonId: string): void;
+
+  /** Reset an entire level */
+  resetLevel(levelId: string): void;
 }

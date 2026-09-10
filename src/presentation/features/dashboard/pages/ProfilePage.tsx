@@ -2,11 +2,12 @@
  * ProfilePage — User profile, settings, and preferences.
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Trash2, Moon, Sun, Monitor, User, Shield, Bell } from 'lucide-react';
+import { LogOut, Trash2, Moon, Sun, Monitor, User, Shield, Bell, RotateCcw } from 'lucide-react';
 
 import { useAuthStore } from '@/presentation/features/auth/store/auth.store';
+import { useProgressStore } from '@/presentation/features/courses/store/useProgressStore';
 import { useTheme } from '@/presentation/app/providers/ThemeProvider';
 import { Button } from '@/presentation/shared/atoms/ui/button';
 import { Input } from '@/presentation/shared/atoms/ui/input';
@@ -14,11 +15,13 @@ import { Label } from '@/presentation/shared/atoms/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/presentation/shared/atoms/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/presentation/shared/atoms/ui/tabs';
 import { Separator } from '@/presentation/shared/atoms/ui/separator';
+import { ConfirmDialog } from '@/presentation/shared/atoms/ui/confirm-dialog';
 import { toast } from 'sonner';
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const { user, setUser, logout } = useAuthStore();
+  const { resetProgress } = useProgressStore();
   const { theme, setTheme } = useTheme();
 
   // Local state for forms
@@ -40,6 +43,19 @@ export function ProfilePage() {
     }, 800);
   };
 
+  // Confirm dialog state
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    confirmLabel: string;
+    onConfirm: () => void;
+  }>({ open: false, title: '', description: '', confirmLabel: '', onConfirm: () => {} });
+
+  const openConfirm = useCallback((opts: Omit<typeof confirmDialog, 'open'>) => {
+    setConfirmDialog({ ...opts, open: true });
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -47,11 +63,28 @@ export function ProfilePage() {
   };
 
   const handleDeleteAccount = () => {
-    if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-      logout();
-      navigate('/login');
-      toast.error('Tu cuenta ha sido eliminada permanentemente.');
-    }
+    openConfirm({
+      title: 'Eliminar cuenta',
+      description: 'Se eliminará tu cuenta y todos los datos asociados de forma permanente. Esta acción no se puede deshacer.',
+      confirmLabel: 'Eliminar cuenta',
+      onConfirm: () => {
+        logout();
+        navigate('/login');
+        toast.error('Tu cuenta ha sido eliminada permanentemente.');
+      },
+    });
+  };
+
+  const handleResetCourse = () => {
+    openConfirm({
+      title: 'Reiniciar curso completo',
+      description: 'Se borrará TODO tu progreso en lecciones, quizzes y niveles. Volverás al 0%. Esta acción no se puede deshacer.',
+      confirmLabel: 'Reiniciar curso',
+      onConfirm: () => {
+        resetProgress();
+        toast.success('Tu progreso ha sido reiniciado completamente.');
+      },
+    });
   };
 
   return (
@@ -237,10 +270,34 @@ export function ProfilePage() {
                   Eliminar cuenta
                 </Button>
               </div>
+
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-destructive/20 bg-destructive/10 p-4">
+                <div className="space-y-0.5">
+                  <Label className="text-base text-destructive flex items-center gap-2">
+                    <RotateCcw className="h-4 w-4" /> Reiniciar curso completo
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Borra todo tu progreso en lecciones, quizzes y niveles. Volverás al 0%.
+                  </p>
+                </div>
+                <Button variant="destructive" onClick={handleResetCourse}>
+                  Reiniciar curso
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel={confirmDialog.confirmLabel}
+        variant="destructive"
+        onConfirm={confirmDialog.onConfirm}
+      />
     </div>
   );
 }

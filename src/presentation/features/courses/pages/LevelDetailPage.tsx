@@ -2,21 +2,23 @@
  * LevelDetailPage — Lista de lecciones de un nivel.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, Circle, Clock, PlayCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, Clock, PlayCircle, RotateCcw } from 'lucide-react';
 
 import { Card, CardContent } from '@/presentation/shared/atoms/ui/card';
 import { Badge } from '@/presentation/shared/atoms/ui/badge';
 import { Progress } from '@/presentation/shared/atoms/ui/progress';
-import { buttonVariants } from '@/presentation/shared/atoms/ui/button';
+import { Button, buttonVariants } from '@/presentation/shared/atoms/ui/button';
+import { ConfirmDialog } from '@/presentation/shared/atoms/ui/confirm-dialog';
 import { noiCourse } from '@/domain/content';
 import { useProgressStore } from '../store/useProgressStore';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export function LevelDetailPage() {
   const { levelSlug } = useParams<{ levelSlug: string }>();
-  const { hydrate, isHydrated, getLessonProgress, getLevelProgress } = useProgressStore();
+  const { hydrate, isHydrated, getLessonProgress, getLevelProgress, resetLesson, resetLevel, progress } = useProgressStore();
 
   useEffect(() => {
     if (!isHydrated) hydrate();
@@ -31,6 +33,50 @@ export function LevelDetailPage() {
     () => (level ? getLevelProgress(level.id) : null),
     [level, getLevelProgress]
   );
+
+  // Check if ANY lesson in this level has been started (not just completed)
+  const hasAnyProgress = useMemo(() => {
+    if (!level) return false;
+    return level.lessons.some((l) => !!progress.lessons[l.id]);
+  }, [level, progress.lessons]);
+
+  // Dialog state
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    confirmLabel: string;
+    onConfirm: () => void;
+  }>({ open: false, title: '', description: '', confirmLabel: '', onConfirm: () => {} });
+
+  const openConfirm = useCallback((opts: Omit<typeof confirmDialog, 'open'>) => {
+    setConfirmDialog({ ...opts, open: true });
+  }, []);
+
+  const handleResetLevel = () => {
+    if (!level) return;
+    openConfirm({
+      title: `Reiniciar ${level.title}`,
+      description: `Se eliminará todo tu progreso en las ${level.lessons.length} lecciones de este nivel. Esta acción no se puede deshacer.`,
+      confirmLabel: 'Reiniciar nivel',
+      onConfirm: () => {
+        resetLevel(level.id);
+        toast.success(`Progreso del ${level.title} reiniciado`);
+      },
+    });
+  };
+
+  const handleResetLesson = (lessonId: string, lessonTitle: string) => {
+    openConfirm({
+      title: 'Reiniciar lección',
+      description: `Se eliminará tu progreso en "${lessonTitle}". Volverás a empezarla desde el principio.`,
+      confirmLabel: 'Reiniciar lección',
+      onConfirm: () => {
+        resetLesson(lessonId);
+        toast.success(`Progreso de "${lessonTitle}" reiniciado`);
+      },
+    });
+  };
 
   if (!level) {
     return (
@@ -52,12 +98,25 @@ export function LevelDetailPage() {
 
       {/* Level Header */}
       <div className="animate-fade-in-up">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="text-3xl">{level.icon}</span>
-          <div>
-            <p className="text-sm font-medium text-primary">Nivel {level.number} · {level.subtitle}</p>
-            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{level.title}</h1>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-3xl">{level.icon}</span>
+            <div>
+              <p className="text-sm font-medium text-primary">Nivel {level.number} · {level.subtitle}</p>
+              <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{level.title}</h1>
+            </div>
           </div>
+          {hasAnyProgress && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="shrink-0 text-destructive border-destructive/30 hover:bg-destructive hover:text-destructive-foreground"
+              onClick={handleResetLevel}
+            >
+              <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
+              Reiniciar nivel
+            </Button>
+          )}
         </div>
         <p className="text-muted-foreground max-w-2xl mt-2">{level.description}</p>
 
@@ -84,17 +143,17 @@ export function LevelDetailPage() {
           const lp = getLessonProgress(lesson.id);
           const isCompleted = lp?.status === 'completed';
           const isInProgress = lp?.status === 'in-progress';
+          const hasProgress = isCompleted || isInProgress;
 
           return (
-            <Link
+            <div
               key={lesson.id}
-              to={`/courses/${level.slug}/${lesson.slug}`}
               className={`animate-fade-in-up stagger-${i + 1}`}
             >
-              <Card className={`group transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${isCompleted ? 'border-success/30 bg-success/5' : isInProgress ? 'border-primary/30 bg-primary/5' : ''}`}>
+              <Card className={`transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${isCompleted ? 'border-success/30 bg-success/5' : isInProgress ? 'border-primary/30 bg-primary/5' : ''}`}>
                 <CardContent className="flex items-center gap-4 py-4">
                   {/* Status Icon */}
-                  <div className="shrink-0">
+                  <Link to={`/courses/${level.slug}/${lesson.slug}`} className="shrink-0">
                     {isCompleted ? (
                       <CheckCircle2 className="h-6 w-6 text-success" />
                     ) : isInProgress ? (
@@ -102,10 +161,10 @@ export function LevelDetailPage() {
                     ) : (
                       <Circle className="h-6 w-6 text-muted-foreground/40" />
                     )}
-                  </div>
+                  </Link>
 
                   {/* Content */}
-                  <div className="flex-1 min-w-0">
+                  <Link to={`/courses/${level.slug}/${lesson.slug}`} className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-medium text-muted-foreground">Lección {lesson.number}</span>
                       {isCompleted && lp?.bestQuizAttempt && (
@@ -114,23 +173,49 @@ export function LevelDetailPage() {
                         </Badge>
                       )}
                     </div>
-                    <h3 className="font-medium group-hover:text-primary transition-colors truncate">
+                    <h3 className="font-medium hover:text-primary transition-colors truncate">
                       {lesson.title}
                     </h3>
                     <p className="text-sm text-muted-foreground truncate">{lesson.description}</p>
-                  </div>
+                  </Link>
 
                   {/* Duration */}
                   <div className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground shrink-0">
                     <Clock className="h-3.5 w-3.5" />
                     {lesson.durationMinutes} min
                   </div>
+
+                  {/* Reset button — always visible when lesson has progress */}
+                  {hasProgress && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="shrink-0 text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleResetLesson(lesson.id, lesson.title);
+                      }}
+                    >
+                      <RotateCcw className="h-3 w-3 mr-1" />
+                      Reiniciar
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
-            </Link>
+            </div>
           );
         })}
       </div>
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel={confirmDialog.confirmLabel}
+        variant="destructive"
+        onConfirm={confirmDialog.onConfirm}
+      />
     </div>
   );
 }
