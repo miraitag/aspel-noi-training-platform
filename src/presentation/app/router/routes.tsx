@@ -14,6 +14,7 @@ import { MainLayout } from '@/presentation/shared/templates/MainLayout';
 import { LoginPage } from '@/presentation/features/auth/pages/LoginPage';
 import { RegisterPage } from '@/presentation/features/auth/pages/RegisterPage';
 import { DashboardPage } from '@/presentation/features/dashboard/pages/DashboardPage';
+import { ProfilePage } from '@/presentation/features/dashboard/pages/ProfilePage';
 import { CoursesOverviewPage } from '@/presentation/features/courses/pages/CoursesOverviewPage';
 import { LevelDetailPage } from '@/presentation/features/courses/pages/LevelDetailPage';
 import { LessonPage } from '@/presentation/features/courses/pages/LessonPage';
@@ -56,13 +57,7 @@ export function createRoutes(): RouteObject[] {
             { path: ROUTES.COURSE_QUIZ, element: <QuizPage /> },
             {
               path: ROUTES.PROFILE,
-              element: (
-                <div className="flex items-center justify-center py-20">
-                  <p className="text-lg text-muted-foreground">
-                    👤 Perfil de usuario — Próximamente
-                  </p>
-                </div>
-              ),
+              element: <ProfilePage />,
             },
           ],
         },

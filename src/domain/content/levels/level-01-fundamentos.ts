@@ -24,8 +24,83 @@ export const level01: Level = {
     // ── Lección 1 ────────────────────────────────────────
     {
       id: 'l01-01',
-      slug: 'que-es-una-nomina',
+      slug: 'introduccion-calculo-isr-imss',
       number: 1,
+      title: 'Introducción al Cálculo de ISR e IMSS',
+      description: 'Aprende los conceptos básicos y la mecánica para calcular el ISR y el IMSS de forma manual antes de entrar a NOI.',
+      durationMinutes: 25,
+      objectives: ['Entender la mecánica básica del ISR', 'Conocer cómo se retiene el IMSS', 'Diferenciar base gravable y SBC'],
+      sections: [
+        {
+          id: 'l01-01-s1',
+          type: 'concept',
+          title: '¿Por qué calcular a mano?',
+          content: 'Antes de usar un sistema como NOI, es indispensable entender de dónde salen los números. El ISR (Impuesto Sobre la Renta) y el [IMSS](https://www.imss.gob.mx/) son las dos retenciones obligatorias más comunes. Si un trabajador te pregunta por qué le retuviste $500, debes saber explicarle la fórmula matemática detrás de ese número.'
+        },
+        {
+          id: 'l01-01-s2',
+          type: 'explanation',
+          title: 'Mecánica del ISR',
+          content: 'El ISR en México es progresivo: quien gana más, paga un mayor porcentaje. El [SAT](https://www.sat.gob.mx/) publica tablas periódicas. La mecánica general es:\n\n1. Identificar la Base Gravable (Total de ingresos que pagan impuesto).\n2. Ubicar esta base en la tabla del SAT.\n3. Restar el "Límite Inferior" de su rango.\n4. Multiplicar el resultado por el "% para aplicarse sobre el excedente".\n5. Sumar la "Cuota Fija" de su rango.\n\nEl resultado es el ISR a retener.'
+        },
+        {
+          id: 'l01-01-s3',
+          type: 'numeric-example',
+          title: 'Ejemplo básico de ISR',
+          content: 'Supongamos una Base Gravable quincenal de $5,000.\nEn la tabla quincenal imaginaria:\n- Límite inferior: $4,200\n- Porcentaje: 10%\n- Cuota fija: $250\n\nCálculo:\n1. $5,000 - $4,200 = $800 (Excedente)\n2. $800 × 10% = $80 (Impuesto marginal)\n3. $80 + $250 = $330 (ISR total a retener)'
+        },
+        {
+          id: 'l01-01-s4',
+          type: 'explanation',
+          title: 'Mecánica del IMSS',
+          content: 'La retención del [IMSS](https://www.imss.gob.mx/) (cuota obrera) sirve para pagar el seguro médico, pensión, etc. Se calcula usando el **Salario Base de Cotización (SBC)**, que es el sueldo diario más la parte proporcional de prestaciones (como aguinaldo y prima vacacional).\n\nA diferencia del ISR, el IMSS se calcula multiplicando el SBC por los días laborados y aplicándole porcentajes fijos según el ramo de seguro (Enfermedades y Maternidad, Invalidez, Cesantía, etc.). En promedio, un trabajador retiene entre el 2.5% y el 3% de su salario.'
+        },
+        {
+          id: 'l01-01-s5',
+          type: 'practice-exercise',
+          title: 'Ejercicio para ti',
+          content: 'Si la fórmula del ISR es: ((Base - Límite Inferior) × Porcentaje) + Cuota Fija.\n\nCalcula el ISR para una base de $10,000, si la tabla indica:\n- Límite inferior: $8,500\n- Porcentaje: 16%\n- Cuota fija: $750',
+          solution: '1. **Excedente:** $10,000 - $8,500 = **$1,500**\n2. **Impuesto marginal:** $1,500 × 16% = **$240**\n3. **ISR a retener:** $240 + $750 = **$990**'
+        }
+      ],
+      quiz: {
+        id: 'q01-01',
+        title: 'Repaso: Cálculo de ISR e IMSS',
+        description: 'Demuestra lo que aprendiste sobre la mecánica de retenciones.',
+        passingScore: 80,
+        questions: [
+          {
+            id: 'q01-01-q1',
+            question: '¿Qué característica define al ISR en México?',
+            options: [
+              'Es una cuota fija para todos.',
+              'Es progresivo: a mayor ingreso, mayor tasa.',
+              'Solo lo pagan las empresas, no los trabajadores.',
+              'Es un porcentaje fijo del 16% para todos.'
+            ],
+            correctAnswer: 1,
+            explanation: 'El ISR es un impuesto progresivo, por lo que quienes tienen mayores ingresos pagan un mayor porcentaje sobre el excedente.'
+          },
+          {
+            id: 'q01-01-q2',
+            question: 'En el cálculo de ISR, ¿qué se le resta a la Base Gravable como primer paso?',
+            options: [
+              'La Cuota Fija',
+              'El Salario Mínimo',
+              'El Límite Inferior',
+              'El Subsidio al Empleo'
+            ],
+            correctAnswer: 2,
+            explanation: 'El primer paso es ubicar la base gravable en la tabla y restarle el Límite Inferior correspondiente a su rango.'
+          }
+        ]
+      }
+    },
+    // ── Lección 2 ────────────────────────────────────────
+    {
+      id: 'l01-02',
+      slug: 'que-es-una-nomina',
+      number: 2,
       title: '¿Qué es una nómina?',
       description:
         'Entender el concepto fundamental de la nómina y su importancia en la relación laboral.',
@@ -38,14 +113,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-01-s1',
+          id: 'l01-02-s1',
           type: 'concept',
           title: '¿Qué es una nómina?',
           content:
             'Una nómina es el registro detallado de los pagos que un patrón realiza a sus trabajadores por sus servicios durante un periodo determinado. No es simplemente "lo que le pagas al empleado"; es un documento legal, fiscal y contable que refleja percepciones, deducciones y el neto a pagar.\n\nEn México, la nómina está regulada por la [Ley Federal del Trabajo](https://www.diputados.gob.mx/LeyesBiblio/pdf/[LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf).pdf) ([LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf)), la Ley del Seguro Social (LSS), la Ley del ISR y el Código Fiscal de la Federación (CFF). Cumplir con la nómina no es opcional: es una obligación patronal.',
         },
         {
-          id: 'l01-01-s2',
+          id: 'l01-02-s2',
           type: 'explanation',
           title: '¿Por qué importa la nómina?',
           content:
@@ -59,7 +134,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-01-s3',
+          id: 'l01-02-s3',
           type: 'numeric-example',
           title: 'Anatomía básica de una nómina',
           content:
@@ -73,7 +148,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-01-s4',
+          id: 'l01-02-s4',
           type: 'noi-procedure',
           title: 'La nómina en Aspel NOI',
           content:
@@ -87,7 +162,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-01-s5',
+          id: 'l01-02-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado: identifica las partes',
           content:
@@ -107,7 +182,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-01-s6',
+          id: 'l01-02-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -116,7 +191,7 @@ export const level01: Level = {
             '1. **Total de percepciones:** $12,000 + $1,500 + $800 = **$14,300**\n2. **Total de deducciones:** $1,420 + $480 + $2,000 = **$3,900**\n3. **Neto a pagar:** $14,300 - $3,900 = **$10,400**\n4. **Porcentaje de deducciones:** ($3,900 / $14,300) × 100 = **27.27%**',
         },
         {
-          id: 'l01-01-s7',
+          id: 'l01-02-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -187,11 +262,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 2 ────────────────────────────────────────
+    // ── Lección 3 ────────────────────────────────────────
     {
-      id: 'l01-02',
+      id: 'l01-03',
       slug: 'que-es-aspel-noi',
-      number: 2,
+      number: 3,
       title: '¿Qué es Aspel NOI y para qué sirve?',
       description: 'Conocer el software Aspel NOI 11, sus módulos principales y su rol en la nómina mexicana.',
       durationMinutes: 25,
@@ -203,21 +278,21 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-02-s1',
+          id: 'l01-03-s1',
           type: 'concept',
           title: '¿Qué es Aspel NOI?',
           content:
             'Aspel NOI es un sistema de nómina integral desarrollado por Siigo Aspel, una de las empresas de software administrativo más utilizadas en México. NOI (Nómina Integral) permite calcular la nómina de los trabajadores, generar recibos de nómina electrónicos (CFDI), cumplir con las obligaciones ante el [IMSS](https://www.imss.gob.mx/), [INFONAVIT](https://portalmx.infonavit.org.mx/) y [SAT](https://www.sat.gob.mx/), y administrar los recursos humanos de una empresa.\n\nNOI 11 es la versión más reciente y se mantiene actualizada con los cambios fiscales y laborales de cada ejercicio.',
         },
         {
-          id: 'l01-02-s2',
+          id: 'l01-03-s2',
           type: 'explanation',
           title: 'Módulos principales de NOI 11',
           content:
             'NOI organiza su funcionalidad en módulos que siguen el flujo natural de la nómina:\n\n- **Empresa**: configuración de datos fiscales, registro patronal, parámetros del sistema.\n- **Trabajadores**: catálogo de empleados con datos personales, fiscales y laborales.\n- **Percepciones y Deducciones**: catálogo de conceptos de pago y descuento.\n- **Nómina**: captura de movimientos, procesamiento y cierre de nómina por periodo.\n- **Recibos Electrónicos**: timbrado de CFDI, consulta y cancelación.\n- **Reportes**: reportes de nómina, acumulados, listados de trabajadores, declaraciones.',
         },
         {
-          id: 'l01-02-s3',
+          id: 'l01-03-s3',
           type: 'numeric-example',
           title: 'Flujo general de trabajo en NOI',
           content:
@@ -238,7 +313,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-02-s4',
+          id: 'l01-03-s4',
           type: 'noi-procedure',
           title: 'Novedades de NOI 11 — 2026',
           content:
@@ -252,7 +327,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-02-s5',
+          id: 'l01-03-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado: mapea el flujo',
           content:
@@ -264,7 +339,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-02-s6',
+          id: 'l01-03-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -273,7 +348,7 @@ export const level01: Level = {
             '**Orden correcto:** D, B, F, C, G, E, A.\n\n1. (D) Configurar empresa\n2. (B) Registrar trabajadores\n3. (F) Crear periodo de nómina\n4. (C) Capturar movimientos\n5. (G) Procesar la nómina\n6. (E) Cerrar nómina\n7. (A) Timbrar CFDI',
         },
         {
-          id: 'l01-02-s7',
+          id: 'l01-03-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -328,11 +403,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 3 ────────────────────────────────────────
+    // ── Lección 4 ────────────────────────────────────────
     {
-      id: 'l01-03',
+      id: 'l01-04',
       slug: 'patron-trabajador-relacion-laboral',
-      number: 3,
+      number: 4,
       title: 'Patrón, trabajador y relación laboral',
       description: 'Comprender los roles legales en una relación laboral y su impacto en la nómina.',
       durationMinutes: 30,
@@ -344,14 +419,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-03-s1',
+          id: 'l01-04-s1',
           type: 'concept',
           title: '¿Quién es patrón y quién es trabajador?',
           content:
             'Según la [Ley Federal del Trabajo](https://www.diputados.gob.mx/LeyesBiblio/pdf/[LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf).pdf) ([LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf)):\n\n**Patrón** (Art. 10 [LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf)): Persona física o moral que utiliza los servicios de uno o más trabajadores. El patrón puede ser una empresa, un profesionista, o cualquier persona que contrate personal subordinado.\n\n**Trabajador** (Art. 8 [LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf)): Persona física que presta a otra, física o moral, un trabajo personal subordinado. La clave aquí es la palabra "subordinado" — significa que el patrón dirige y el trabajador obedece instrucciones.',
         },
         {
-          id: 'l01-03-s2',
+          id: 'l01-04-s2',
           type: 'explanation',
           title: 'Tipos de relación laboral',
           content:
@@ -365,21 +440,21 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-03-s3',
+          id: 'l01-04-s3',
           type: 'numeric-example',
           title: 'Obligaciones patronales que impactan la nómina',
           content:
             'Cada obligación del patrón se traduce en un concepto de nómina:\n\n| Obligación | Impacto en nómina |\n|---|---|\n| Pagar salario | Percepción: Sueldo |\n| Inscribir en [IMSS](https://www.imss.gob.mx/) | Deducción: Cuota obrera [IMSS](https://www.imss.gob.mx/) |\n| Retener ISR | Deducción: ISR |\n| Retener [INFONAVIT](https://portalmx.infonavit.org.mx/) | Deducción: Crédito [INFONAVIT](https://portalmx.infonavit.org.mx/) |\n| Otorgar vacaciones | Percepción: Prima vacacional |\n| Pagar aguinaldo | Percepción: Aguinaldo (diciembre) |\n| Reparto de utilidades | Percepción: PTU (mayo) |',
         },
         {
-          id: 'l01-03-s4',
+          id: 'l01-04-s4',
           type: 'noi-procedure',
           title: '¿Cómo se refleja en NOI?',
           content:
             'En NOI, la relación laboral se configura en el catálogo de trabajadores:\n\n- **Tipo de contrato**: Indeterminado, determinado, periodo de prueba, capacitación inicial.\n- **Tipo de jornada**: Diurna, nocturna, mixta.\n- **Tipo de régimen**: Sueldos y salarios, asimilados, honorarios.\n- **Registro patronal**: Vincula al trabajador con el patrón ante el [IMSS](https://www.imss.gob.mx/).\n\nTodos estos datos son necesarios para el timbrado del CFDI y deben corresponder exactamente con lo que el patrón reporta al [IMSS](https://www.imss.gob.mx/).',
         },
         {
-          id: 'l01-03-s5',
+          id: 'l01-04-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado: identifica la relación',
           content:
@@ -390,7 +465,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-03-s6',
+          id: 'l01-04-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -399,7 +474,7 @@ export const level01: Level = {
             '1. **Sí (Pedro)**: Está contratado por tiempo indeterminado.\n2. **No (Sofía)**: Es prestadora de servicios externos (honorarios).\n3. **Sí (Luis)**: El periodo de capacitación inicial es una relación laboral formal.\n4. **No (Ana)**: No hay subordinación, es freelance.\n5. **Sí (Carlos)**: Hay subordinación (horario, herramientas de la empresa, trabajo exclusivo).',
         },
         {
-          id: 'l01-03-s7',
+          id: 'l01-04-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -442,11 +517,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 4 ────────────────────────────────────────
+    // ── Lección 5 ────────────────────────────────────────
     {
-      id: 'l01-04',
+      id: 'l01-05',
       slug: 'periodos-de-nomina',
-      number: 4,
+      number: 5,
       title: 'Periodos de nómina: semanal, catorcenal, quincenal y mensual',
       description: 'Entender los diferentes periodos de pago y cuándo usar cada uno.',
       durationMinutes: 25,
@@ -458,14 +533,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-04-s1',
+          id: 'l01-05-s1',
           type: 'concept',
           title: 'Los periodos de nómina',
           content:
             'El periodo de nómina es la frecuencia con la que se paga al trabajador. En México, los periodos más comunes son:\n\n- **Semanal**: pago cada 7 días (52 periodos/año). Común en industria, construcción y comercio.\n- **Catorcenal**: pago cada 14 días (26 periodos/año). Usado en algunas fábricas y gobierno.\n- **Quincenal**: pago cada 15 días, usualmente los días 15 y último de mes (24 periodos/año). El más común en oficinas.\n- **Mensual**: pago una vez al mes (12 periodos/año). Usado para directivos y en algunos esquemas.\n\nLa [LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf) establece que los trabajadores de planta deben recibir su salario al menos semanalmente (Art. 88 [LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf)).',
         },
         {
-          id: 'l01-04-s2',
+          id: 'l01-05-s2',
           type: 'explanation',
           title: '¿Por qué importa el periodo?',
           content:
@@ -479,7 +554,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-04-s3',
+          id: 'l01-05-s3',
           type: 'numeric-example',
           title: 'Cálculo: de mensual a semanal y viceversa',
           content:
@@ -500,14 +575,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-04-s4',
+          id: 'l01-05-s4',
           type: 'noi-procedure',
           title: 'El periodo de nómina en NOI',
           content:
             'En NOI, el periodo de nómina se configura al crear la empresa:\n\n1. Al crear una nueva empresa, seleccionas el tipo de periodo (semanal, catorcenal, quincenal o mensual).\n2. NOI calcula automáticamente los periodos del año.\n3. Cada vez que procesas nómina, seleccionas el periodo a calcular.\n4. NOI aplica las tablas de ISR proporcionadas al periodo.\n\nPuede haber más de un tipo de periodo en la misma empresa. Por ejemplo: obreros con nómina semanal y administrativos con nómina quincenal. NOI maneja esto con diferentes "tipos de nómina" dentro de la misma empresa.',
         },
         {
-          id: 'l01-04-s5',
+          id: 'l01-05-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado: calcula los periodos',
           content:
@@ -521,7 +596,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-04-s6',
+          id: 'l01-05-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -530,7 +605,7 @@ export const level01: Level = {
             '1. **$18,000.** (Salario diario = $4,200 ÷ 7 = $600. Mensual = $600 × 30 = $18,000).\n2. **$21,000.** (Salario diario = $45,000 ÷ 30 = $1,500. Catorcenal = $1,500 × 14 = $21,000).\n3. **52 cálculos para obreros** y **24 cálculos para administrativos.**\n4. **24 periodos.**',
         },
         {
-          id: 'l01-04-s7',
+          id: 'l01-05-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -568,11 +643,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 5 ────────────────────────────────────────
+    // ── Lección 6 ────────────────────────────────────────
     {
-      id: 'l01-05',
+      id: 'l01-06',
       slug: 'sueldo-bruto-vs-neto',
-      number: 5,
+      number: 6,
       title: 'Sueldo bruto vs. sueldo neto',
       description: 'Diferenciar claramente entre lo que gana el trabajador y lo que recibe.',
       durationMinutes: 20,
@@ -584,21 +659,21 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-05-s1',
+          id: 'l01-06-s1',
           type: 'concept',
           title: 'Bruto vs. Neto',
           content:
             '**Sueldo bruto**: es el monto TOTAL de percepciones antes de cualquier deducción. Es lo que el patrón "asigna" como pago.\n\n**Sueldo neto**: es lo que el trabajador realmente recibe después de restar todas las deducciones (ISR, [IMSS](https://www.imss.gob.mx/), [INFONAVIT](https://portalmx.infonavit.org.mx/), préstamos, etc.).\n\nFórmula fundamental:\n\n**Neto = Bruto − Deducciones**\n\nCuando un empleador dice "te vamos a pagar $20,000", generalmente se refiere al bruto. El trabajador recibirá menos.',
         },
         {
-          id: 'l01-05-s2',
+          id: 'l01-06-s2',
           type: 'explanation',
           title: '¿Qué afecta la diferencia entre bruto y neto?',
           content:
             'Las principales deducciones que reducen el bruto son:\n\n- **ISR** (Impuesto Sobre la Renta): depende del nivel de ingreso. A mayor sueldo, mayor tasa.\n- **[IMSS](https://www.imss.gob.mx/)** (cuota obrera): porcentaje del SBC que paga el trabajador por seguridad social.\n- **[INFONAVIT](https://portalmx.infonavit.org.mx/)**: si el trabajador tiene un crédito de vivienda, se deduce de su nómina.\n- **Otras**: préstamos, caja de ahorro, pensión alimenticia, cuota sindical.\n\nComo regla general, las deducciones obligatorias (ISR + [IMSS](https://www.imss.gob.mx/)) representan entre el 10% y el 35% del sueldo bruto, dependiendo del nivel salarial.',
         },
         {
-          id: 'l01-05-s3',
+          id: 'l01-06-s3',
           type: 'numeric-example',
           title: 'Ejemplo: bruto a neto',
           content: 'Calculemos el neto para dos empleados con sueldos muy diferentes:',
@@ -623,14 +698,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-05-s4',
+          id: 'l01-06-s4',
           type: 'noi-procedure',
           title: 'Bruto y neto en NOI',
           content:
             'En NOI, el sueldo bruto se configura en el catálogo de trabajadores como "Sueldo". NOI calcula automáticamente todas las deducciones y muestra el neto en la vista de nómina procesada.\n\nImportante: en NOI puedes ver el desglose completo de un trabajador en la pantalla de "Revisión de Nómina", donde se muestran todas las percepciones y deducciones con sus importes.',
         },
         {
-          id: 'l01-05-s5',
+          id: 'l01-06-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado',
           content:
@@ -642,7 +717,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-05-s6',
+          id: 'l01-06-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -651,7 +726,7 @@ export const level01: Level = {
             '**Empleado 1:**\n- Total deducciones = $720 + $360 = $1,080\n- Neto = $12,000 - $1,080 = **$10,920**\n- Porcentaje neto = ($10,920 / $12,000) = **91%**\n\n**Empleado 2:**\n- Total deducciones = $5,680 + $780 + $2,100 = $8,560\n- Neto = $35,000 - $8,560 = **$26,440**\n- Porcentaje neto = ($26,440 / $35,000) = **75.54%**\n\n**Respuesta:** El **Empleado 1** recibe un mayor porcentaje (91% vs 75.54%) porque el ISR es progresivo (a menor sueldo, menor tasa de retención) y no tiene deducciones extra como INFONAVIT.',
         },
         {
-          id: 'l01-05-s7',
+          id: 'l01-06-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -699,11 +774,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 6 ────────────────────────────────────────
+    // ── Lección 7 ────────────────────────────────────────
     {
-      id: 'l01-06',
+      id: 'l01-07',
       slug: 'salario-diario',
-      number: 6,
+      number: 7,
       title: 'Salario diario',
       description: 'Dominar el cálculo del salario diario, la base de todos los cálculos de nómina.',
       durationMinutes: 25,
@@ -714,21 +789,21 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-06-s1',
+          id: 'l01-07-s1',
           type: 'concept',
           title: 'El salario diario',
           content:
             'El salario diario (SD) es la unidad fundamental de la nómina mexicana. TODO se calcula a partir de él:\n\n- Salario Diario Integrado (SDI)\n- Cuotas [IMSS](https://www.imss.gob.mx/)\n- Aguinaldo\n- Vacaciones y prima vacacional\n- Finiquito e indemnización\n- ISR (base gravable diaria)\n\nSi no sabes calcular correctamente el salario diario, todos los cálculos que dependan de él estarán mal.',
         },
         {
-          id: 'l01-06-s2',
+          id: 'l01-07-s2',
           type: 'explanation',
           title: 'Cómo se calcula',
           content:
             'La fórmula es simple pero hay que aplicarla correctamente:\n\n**Salario diario = Sueldo mensual ÷ 30**\n\nSiempre se divide entre 30, sin importar el mes. Es una convención de la [LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf) (Art. 89).\n\nSi el trabajador no tiene sueldo mensual sino semanal, catorcenal o quincenal:\n\n- **Desde semanal**: SD = Sueldo semanal ÷ 7\n- **Desde catorcenal**: SD = Sueldo catorcenal ÷ 14\n- **Desde quincenal**: SD = Sueldo quincenal ÷ 15',
         },
         {
-          id: 'l01-06-s3',
+          id: 'l01-07-s3',
           type: 'numeric-example',
           title: 'Ejemplos de cálculo',
           content: 'Calculemos el salario diario para diferentes escenarios:',
@@ -751,14 +826,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-06-s4',
+          id: 'l01-07-s4',
           type: 'noi-procedure',
           title: 'El salario diario en NOI',
           content:
             'En NOI, cuando das de alta un trabajador:\n\n1. Ingresas el sueldo en el periodo configurado (mensual, quincenal, etc.).\n2. NOI calcula automáticamente el salario diario.\n3. A partir del SD, NOI deriva el SDI para las cuotas del [IMSS](https://www.imss.gob.mx/).\n\nSi el sueldo que capturas no es consistente con el periodo, NOI puede generar cálculos incorrectos. Siempre verifica que el SD que muestra NOI coincida con tu cálculo manual.',
         },
         {
-          id: 'l01-06-s5',
+          id: 'l01-07-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado',
           content:
@@ -770,7 +845,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-06-s6',
+          id: 'l01-07-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -779,7 +854,7 @@ export const level01: Level = {
             '1. **$300/día** ($9,000 ÷ 30)\n2. **$350/día** ($5,250 ÷ 15)\n3. **$450/día** ($3,150 ÷ 7)\n4. **$600/día** ($8,400 ÷ 14)\n\n**Pregunta extra:** Ninguno de estos trabajadores gana el mismo salario diario.',
         },
         {
-          id: 'l01-06-s7',
+          id: 'l01-07-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -822,11 +897,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 7 ────────────────────────────────────────
+    // ── Lección 8 ────────────────────────────────────────
     {
-      id: 'l01-07',
+      id: 'l01-08',
       slug: 'salario-diario-integrado',
-      number: 7,
+      number: 8,
       title: 'Salario Diario Integrado (SDI)',
       description: 'Aprender a calcular el SDI, la base para las cuotas del [IMSS](https://www.imss.gob.mx/) e [INFONAVIT](https://portalmx.infonavit.org.mx/).',
       durationMinutes: 35,
@@ -838,14 +913,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-07-s1',
+          id: 'l01-08-s1',
           type: 'concept',
           title: '¿Qué es el SDI?',
           content:
             'El Salario Diario Integrado (SDI), también llamado Salario Base de Cotización (SBC), es el salario diario más la parte proporcional diaria de las prestaciones mínimas de ley que le corresponden al trabajador.\n\nEs "integrado" porque integra al salario diario las prestaciones: aguinaldo y prima vacacional. El SDI se usa como base para:\n\n- Cuotas obrero-patronales del [IMSS](https://www.imss.gob.mx/)\n- Aportaciones al [INFONAVIT](https://portalmx.infonavit.org.mx/)\n- Amortización de créditos [INFONAVIT](https://portalmx.infonavit.org.mx/)\n- Cuotas del SAR (Sistema de Ahorro para el Retiro)',
         },
         {
-          id: 'l01-07-s2',
+          id: 'l01-08-s2',
           type: 'explanation',
           title: 'Factor de integración',
           content:
@@ -859,7 +934,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-07-s3',
+          id: 'l01-08-s3',
           type: 'numeric-example',
           title: 'Cálculo completo del SDI',
           content: 'Calculemos el SDI para dos empleados con diferente antigüedad:',
@@ -884,14 +959,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-07-s4',
+          id: 'l01-08-s4',
           type: 'noi-procedure',
           title: 'El SDI en NOI',
           content:
             'NOI calcula el SDI automáticamente cuando:\n\n1. Das de alta un trabajador con su sueldo y fecha de ingreso.\n2. NOI aplica el factor de integración según la antigüedad y las prestaciones configuradas.\n3. Cuando el trabajador cumple un año más, NOI actualiza el factor.\n\nSi tu empresa otorga prestaciones superiores a las de ley (más días de aguinaldo, más vacaciones), debes configurarlo en los parámetros de la empresa para que NOI calcule correctamente el factor de integración.',
         },
         {
-          id: 'l01-07-s5',
+          id: 'l01-08-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado',
           content:
@@ -905,7 +980,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-07-s6',
+          id: 'l01-08-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -914,7 +989,7 @@ export const level01: Level = {
             '**Caso 1 (1 año, ley):**\n- SD = $10,000 ÷ 30 = $333.33\n- Factor (FI) = 1 + (15/365) + (12 × 0.25 / 365) = 1 + 0.04109 + 0.00821 = 1.0493\n- SDI = $333.33 × 1.0493 = **$349.76**\n\n**Caso 2 (8 años, ley):**\n- SD = $25,000 ÷ 30 = $833.33\n- Factor (FI) = 1 + (15/365) + (26 × 0.25 / 365) = 1 + 0.04109 + 0.01780 = 1.0589\n- SDI = $833.33 × 1.0589 = **$882.41**\n\n**Caso 3 (2 años, superior):**\n- SD = $30,000 ÷ 30 = $1,000.00\n- Factor (FI) = 1 + (20/365) + (14 × 0.25 / 365) = 1 + 0.05479 + 0.00958 = 1.0644\n- SDI = $1,000.00 × 1.0644 = **$1,064.40**',
         },
         {
-          id: 'l01-07-s7',
+          id: 'l01-08-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -962,11 +1037,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 8 ────────────────────────────────────────
+    // ── Lección 9 ────────────────────────────────────────
     {
-      id: 'l01-08',
+      id: 'l01-09',
       slug: 'percepciones',
-      number: 8,
+      number: 9,
       title: 'Percepciones',
       description: 'Conocer las principales percepciones que puede tener un trabajador.',
       durationMinutes: 30,
@@ -978,14 +1053,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-08-s1',
+          id: 'l01-09-s1',
           type: 'concept',
           title: '¿Qué son las percepciones?',
           content:
             'Las percepciones son todos los pagos y beneficios económicos que recibe el trabajador por parte del patrón. Son la parte "positiva" de la nómina.\n\nSe clasifican en:\n\n- **Fijas**: se pagan siempre (sueldo base).\n- **Variables**: dependen de eventos (horas extra, comisiones, bonos).\n- **Gravadas**: pagan ISR.\n- **Exentas**: no pagan ISR (hasta ciertos límites).',
         },
         {
-          id: 'l01-08-s2',
+          id: 'l01-09-s2',
           type: 'explanation',
           title: 'Percepciones más comunes',
           content:
@@ -999,7 +1074,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-08-s3',
+          id: 'l01-09-s3',
           type: 'numeric-example',
           title: 'Ejemplo: percepciones gravadas y exentas',
           content: 'Un empleado recibe en diciembre su aguinaldo de 15 días:',
@@ -1012,14 +1087,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-08-s4',
+          id: 'l01-09-s4',
           type: 'noi-procedure',
           title: 'Percepciones en NOI',
           content:
             'En NOI, las percepciones se configuran en el catálogo de percepciones:\n\n- Cada percepción tiene una clave interna (P001, P002...) y una clave [SAT](https://www.sat.gob.mx/).\n- Se define si es gravada, exenta o mixta.\n- Se configura su fórmula de cálculo (fija, porcentaje, días, etc.).\n- Se puede asociar a trabajadores específicos o a todos.\n\nNOI trae percepciones predefinidas (sueldo, aguinaldo, vacaciones), pero puedes crear las que necesites.',
         },
         {
-          id: 'l01-08-s5',
+          id: 'l01-09-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado',
           content:
@@ -1039,7 +1114,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-08-s6',
+          id: 'l01-09-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -1048,7 +1123,7 @@ export const level01: Level = {
             '1. **Total de percepciones:** $7,500 + $2,500 + $1,200 = **$11,200**\n2. **Gravado y Exento:**\n   - **Sueldo:** $7,500 (100% gravado)\n   - **Aguinaldo:** Tope 30 UMA = 30 × 113.14 = $3,394.20. Como recibe $2,500, no rebasa el tope, así que es **100% exento**.\n   - **Vales de despensa:** Tope 40% UMA = 0.40 × 113.14 × 15 días = $678.84 exentos. El resto ($1,200 - $678.84 = $521.16) es gravado.\n   - **Resumen:**\n     - **Gravado:** $7,500 + $521.16 = **$8,021.16**\n     - **Exento:** $2,500 + $678.84 = **$3,178.84**',
         },
         {
-          id: 'l01-08-s7',
+          id: 'l01-09-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -1091,11 +1166,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 9 ────────────────────────────────────────
+    // ── Lección 10 ────────────────────────────────────────
     {
-      id: 'l01-09',
+      id: 'l01-10',
       slug: 'deducciones',
-      number: 9,
+      number: 10,
       title: 'Deducciones',
       description: 'Conocer las principales deducciones legales y voluntarias en una nómina.',
       durationMinutes: 30,
@@ -1107,14 +1182,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-09-s1',
+          id: 'l01-10-s1',
           type: 'concept',
           title: '¿Qué son las deducciones?',
           content:
             'Las deducciones son los montos que se restan de las percepciones del trabajador antes de pagarle. Se clasifican en:\n\n- **Obligatorias por ley**: ISR, [IMSS](https://www.imss.gob.mx/) (cuota obrera), [INFONAVIT](https://portalmx.infonavit.org.mx/) (si tiene crédito).\n- **Por orden judicial**: pensiones alimenticias.\n- **Voluntarias**: préstamos personales, caja de ahorro, cuota sindical, fondo de ahorro.\n\nLa [LFT](https://www.diputados.gob.mx/LeyesBiblio/pdf/125_240124.pdf) (Art. 110) limita las deducciones: el patrón no puede descontar más del 30% del excedente del salario mínimo, excepto para obligaciones legales (ISR, [IMSS](https://www.imss.gob.mx/), pensión alimenticia).',
         },
         {
-          id: 'l01-09-s2',
+          id: 'l01-10-s2',
           type: 'explanation',
           title: 'Deducciones más comunes',
           content:
@@ -1128,7 +1203,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-09-s3',
+          id: 'l01-10-s3',
           type: 'numeric-example',
           title: 'Ejemplo: desglose de deducciones',
           content: 'Veamos las deducciones de un empleado con sueldo quincenal de $11,250:',
@@ -1141,14 +1216,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-09-s4',
+          id: 'l01-10-s4',
           type: 'noi-procedure',
           title: 'Deducciones en NOI',
           content:
             'En NOI, las deducciones se manejan de dos formas:\n\n**Automáticas**: ISR, [IMSS](https://www.imss.gob.mx/) y [INFONAVIT](https://portalmx.infonavit.org.mx/) los calcula NOI con base en las tablas vigentes y el SBC del trabajador. No necesitas capturarlas manualmente.\n\n**Manuales**: préstamos, cuotas sindicales, faltas y otras retenciones se configuran en el catálogo de deducciones y se capturan como movimientos en cada periodo.\n\nCada deducción tiene una clave interna (D001, D002...) y una clave [SAT](https://www.sat.gob.mx/) para el timbrado del CFDI.',
         },
         {
-          id: 'l01-09-s5',
+          id: 'l01-10-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado',
           content:
@@ -1163,7 +1238,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-09-s6',
+          id: 'l01-10-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti',
           content:
@@ -1172,7 +1247,7 @@ export const level01: Level = {
             '1. **Neto:** $9,000 - $680 - $290 - $1,500 - $450 = **$6,080**\n2. **Clasificación:**\n   - **Obligatorias:** ISR ($680) e IMSS ($290)\n   - **Voluntarias:** Préstamo ($1,500) y Fondo de ahorro ($450)\n3. **Porcentaje obligatorias:** ($970 / $9,000) × 100 = **10.77%**\n4. **Porcentaje voluntarias:** ($1,950 / $9,000) × 100 = **21.66%**',
         },
         {
-          id: 'l01-09-s7',
+          id: 'l01-10-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:
@@ -1220,11 +1295,11 @@ export const level01: Level = {
       },
     },
 
-    // ── Lección 10 ───────────────────────────────────────
+    // ── Lección 11 ───────────────────────────────────────
     {
-      id: 'l01-10',
+      id: 'l01-11',
       slug: 'introduccion-isr-imss-[infonavit](https://portalmx.infonavit.org.mx/)',
-      number: 10,
+      number: 11,
       title: 'Introducción a ISR, [IMSS](https://www.imss.gob.mx/) e [INFONAVIT](https://portalmx.infonavit.org.mx/)',
       description: 'Primera aproximación a los tres pilares de la nómina mexicana.',
       durationMinutes: 35,
@@ -1236,14 +1311,14 @@ export const level01: Level = {
       ],
       sections: [
         {
-          id: 'l01-10-s1',
+          id: 'l01-11-s1',
           type: 'concept',
           title: 'Los tres pilares de la nómina fiscal',
           content:
             'Toda nómina en México gira alrededor de tres instituciones:\n\n**1. [SAT](https://www.sat.gob.mx/) — ISR (Impuesto Sobre la Renta)**\nEl impuesto que el trabajador paga al gobierno por sus ingresos. El patrón lo retiene y lo entera (paga) al [SAT](https://www.sat.gob.mx/).\n\n**2. [IMSS](https://www.imss.gob.mx/) — Seguro Social**\nLas cuotas que tanto el patrón como el trabajador pagan para que el empleado tenga acceso a servicios médicos, pensión, guarderías, etc.\n\n**3. [INFONAVIT](https://portalmx.infonavit.org.mx/) — Vivienda**\nLas aportaciones patronales para que el trabajador pueda acceder a un crédito de vivienda. Si el trabajador ya tiene crédito, se le descuenta de la nómina.',
         },
         {
-          id: 'l01-10-s2',
+          id: 'l01-11-s2',
           type: 'explanation',
           title: 'ISR — Lo básico',
           content:
@@ -1257,7 +1332,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-10-s3',
+          id: 'l01-11-s3',
           type: 'numeric-example',
           title: 'Panorama de costos',
           content:
@@ -1278,14 +1353,14 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-10-s4',
+          id: 'l01-11-s4',
           type: 'noi-procedure',
           title: 'ISR, [IMSS](https://www.imss.gob.mx/) e [INFONAVIT](https://portalmx.infonavit.org.mx/) en NOI',
           content:
             'NOI calcula automáticamente los tres:\n\n- **ISR**: con las tablas del ejercicio vigente. Se actualiza con cada versión de NOI.\n- **[IMSS](https://www.imss.gob.mx/)**: con las tasas y topes vigentes. Calcula cuota obrera y patronal.\n- **[INFONAVIT](https://portalmx.infonavit.org.mx/)**: si el trabajador tiene crédito, NOI aplica el descuento según el tipo (porcentaje, cuota fija o VSM).\n\nTodo esto se refleja en el recibo de nómina y en los reportes para declaraciones.',
         },
         {
-          id: 'l01-10-s5',
+          id: 'l01-11-s5',
           type: 'guided-exercise',
           title: 'Ejercicio guiado: el panorama completo',
           content:
@@ -1305,7 +1380,7 @@ export const level01: Level = {
           ],
         },
         {
-          id: 'l01-10-s6',
+          id: 'l01-11-s6',
           type: 'practice-exercise',
           title: 'Ejercicio para ti — Caso práctico del nivel',
           content:
@@ -1314,7 +1389,7 @@ export const level01: Level = {
             '1. **Salario diario:** $18,000 ÷ 30 = **$600.00**\n2. **SDI:** $600.00 × 1.0521 = **$631.26**\n3. **Sueldo quincenal:** $600.00 × 15 = **$9,000.00** (Bruto)\n4. **ISR aproximado:** $9,000 × 0.08 = **$720.00**\n5. **IMSS obrero aproximado:** $9,000 × 0.03 = **$270.00**\n6. **Neto a pagar:** $9,000 - $720 - $270 = **$8,010.00**\n\n**Evaluación:** Sí, tiene sentido. El neto ($8,010) representa exactamente el **89%** del sueldo bruto ($9,000), que está perfectamente dentro del rango saludable del 85% - 92%.',
         },
         {
-          id: 'l01-10-s7',
+          id: 'l01-11-s7',
           type: 'common-errors',
           title: 'Errores frecuentes',
           content:

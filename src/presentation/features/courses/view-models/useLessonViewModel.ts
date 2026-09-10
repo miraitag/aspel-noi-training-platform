@@ -45,12 +45,17 @@ export function useLessonViewModel() {
     }
   }, [lesson, level, isHydrated, startLesson, completeLesson]);
 
-  // Restore last section
+  // Restore last section or reset on lesson change
   useEffect(() => {
-    if (progress && progress.lastSectionIndex > 0) {
-      setCurrentSectionIndex(progress.lastSectionIndex);
+    if (progress && lesson) {
+      const savedIndex = progress.lastSectionIndex || 0;
+      // Clamp index to prevent out-of-bounds if lesson content changes
+      const safeIndex = Math.min(savedIndex, lesson.sections.length - 1);
+      setCurrentSectionIndex(Math.max(0, safeIndex));
+    } else {
+      setCurrentSectionIndex(0);
     }
-  }, [progress]);
+  }, [lessonSlug, progress?.lastSectionIndex, lesson?.sections.length]);
 
   const goToSection = useCallback(
     (index: number) => {
