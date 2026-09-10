@@ -21,6 +21,9 @@ export const ROUTES = {
   REGISTER: '/register',
   DASHBOARD: '/dashboard',
   COURSES: '/courses',
+  COURSE_LEVEL: '/courses/:levelSlug',
+  COURSE_LESSON: '/courses/:levelSlug/:lessonSlug',
+  COURSE_QUIZ: '/courses/:levelSlug/:lessonSlug/quiz',
   PROFILE: '/profile',
 } as const;
 

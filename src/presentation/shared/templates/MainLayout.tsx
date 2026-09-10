@@ -5,13 +5,22 @@
  * Uses React Router's Outlet for nested route rendering.
  */
 
-import { Outlet } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { DesktopSidebar, MobileSidebar } from '@/presentation/shared/organisms/Sidebar';
 import { useAuthViewModel } from '@/presentation/features/auth/view-models/useAuthViewModel';
 
 export function MainLayout() {
   const { user } = useAuthViewModel();
+  const { pathname } = useLocation();
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo(0, 0);
+    }
+  }, [pathname]);
 
   return (
     <div className="flex h-svh overflow-hidden">
@@ -31,7 +40,7 @@ export function MainLayout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main ref={mainRef} className="flex-1 overflow-y-auto p-4 lg:p-6">
           <Outlet />
         </main>
       </div>

@@ -14,6 +14,10 @@ import { MainLayout } from '@/presentation/shared/templates/MainLayout';
 import { LoginPage } from '@/presentation/features/auth/pages/LoginPage';
 import { RegisterPage } from '@/presentation/features/auth/pages/RegisterPage';
 import { DashboardPage } from '@/presentation/features/dashboard/pages/DashboardPage';
+import { CoursesOverviewPage } from '@/presentation/features/courses/pages/CoursesOverviewPage';
+import { LevelDetailPage } from '@/presentation/features/courses/pages/LevelDetailPage';
+import { LessonPage } from '@/presentation/features/courses/pages/LessonPage';
+import { QuizPage } from '@/presentation/features/courses/pages/QuizPage';
 
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
@@ -46,16 +50,10 @@ export function createRoutes(): RouteObject[] {
           element: <MainLayout />,
           children: [
             { path: ROUTES.DASHBOARD, element: <DashboardPage /> },
-            {
-              path: ROUTES.COURSES,
-              element: (
-                <div className="flex items-center justify-center py-20">
-                  <p className="text-lg text-muted-foreground">
-                    📚 Módulo de cursos — Próximamente
-                  </p>
-                </div>
-              ),
-            },
+            { path: ROUTES.COURSES, element: <CoursesOverviewPage /> },
+            { path: ROUTES.COURSE_LEVEL, element: <LevelDetailPage /> },
+            { path: ROUTES.COURSE_LESSON, element: <LessonPage /> },
+            { path: ROUTES.COURSE_QUIZ, element: <QuizPage /> },
             {
               path: ROUTES.PROFILE,
               element: (
