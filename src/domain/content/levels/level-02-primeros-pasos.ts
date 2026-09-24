@@ -45,16 +45,20 @@ export const level02: Level = {
         {
           id: 'l02-01-s2',
           type: 'explanation',
-          title: 'Tipos de licencia',
-          content:
-            'NOI 11 ofrece diferentes modalidades:\n\n- **Licencia perpetua**: pago único, actualizaciones por 1 año.\n- **Suscripción**: pago mensual o anual, incluye actualizaciones.\n- **Versión de evaluación**: 30 días gratis con funcionalidad completa.\n- **Versión educativa**: para instituciones académicas.\n\nPara este curso, puedes usar la versión de evaluación. Todos los ejercicios funcionan igual.',
-          callouts: [
+          title: 'Tipos de licencia para aprender',
+          content: 'NOI 11 ofrece modalidades premium (suscripción o licencia perpetua), pero para efectos de aprendizaje puedes acceder al software sin costo. A continuación, elige el camino que mejor se adapte a tu situación actual:',
+          tabs: [
             {
-              type: 'tip',
-              content:
-                'La versión de evaluación tiene exactamente las mismas funciones que la versión completa. La única limitación es el tiempo (30 días). Aprovéchalo para practicar todo lo que puedas.',
+              id: 'evaluacion',
+              title: 'Versión de Evaluación (30 días)',
+              content: 'La **Versión de evaluación** te otorga 30 días gratis con **funcionalidad 100% completa**.\n\n### 🔹 Ventajas:\n- Tienes acceso exacto a las mismas funciones que una empresa pagando la licencia Premium.\n- Puedes realizar todos los ejercicios del curso sin restricción alguna.\n- Ideal si planeas terminar este curso en menos de un mes.\n\n### ⚠️ Diferencias con la versión Oficial/Premium:\nLa única diferencia es el **límite de tiempo**. A los 30 días el sistema te impedirá abrir tu base de datos a menos que compres o rentes una licencia oficial de Aspel. En la versión oficial tienes acceso vitalicio (o mientras dure tu suscripción) y soporte técnico.'
             },
-          ],
+            {
+              id: 'educativa',
+              title: 'Versión Educativa (Académica)',
+              content: 'La **Versión Educativa** es un licenciamiento especial proporcionado por Aspel a instituciones académicas (universidades y escuelas).\n\n### 🔹 Ventajas:\n- No caduca en 30 días. Su licencia suele durar todo el semestre o ciclo escolar.\n- Te permite realizar prácticas y cálculos a tu propio ritmo sin la presión del reloj.\n\n### ⚠️ Diferencias con la versión Oficial y Evaluación:\n- **Fechas bloqueadas:** Aspel restringe la fecha de trabajo. A menudo solo te permite capturar nóminas en un rango de fechas específico (ej. un semestre del año pasado). Esto significa que si quieres usar tablas de ISR o Salario Mínimo actualizadas al año corriente, el sistema podría marcar error por estar fuera de rango.\n- **Timbrado deshabilitado:** No podrás timbrar recibos electrónicos reales.\n- **Límite de registros:** Tiene un tope máximo de trabajadores (por ejemplo, 50 empleados).\n\n*Nota: Para los ejercicios de este curso, cualquiera de los dos caminos te servirá perfectamente para aprender el manejo operativo del sistema.*'
+            }
+          ]
         },
         {
           id: 'l02-01-s3',

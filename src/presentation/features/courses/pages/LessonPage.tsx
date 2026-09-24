@@ -10,6 +10,7 @@ import { Badge } from '@/presentation/shared/atoms/ui/badge';
 import { Button, buttonVariants } from '@/presentation/shared/atoms/ui/button';
 import { ScrollArea } from '@/presentation/shared/atoms/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/presentation/shared/atoms/ui/accordion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/presentation/shared/atoms/ui/tabs';
 import { useLessonViewModel } from '../view-models/useLessonViewModel';
 import type { LessonSectionType, Callout as CalloutType } from '@/domain/models/course.model';
 import ReactMarkdown from 'react-markdown';
@@ -51,11 +52,48 @@ function CalloutBox({ callout }: { callout: CalloutType }) {
   const Icon = icons[callout.type];
 
   return (
-    <div className={`rounded-lg border p-4 my-4 ${styles[callout.type]}`}>
-      <div className="flex items-start gap-3">
-        <Icon className="h-5 w-5 shrink-0 mt-0.5" />
-        <p className="text-sm leading-relaxed">{callout.content}</p>
+    <div className={`p-4 rounded-lg border-l-4 ${styles[callout.type]}`}>
+      <div className="flex gap-3">
+        <Icon className="h-5 w-5 shrink-0" />
+        <p className="text-sm leading-relaxed pt-0.5">{callout.content}</p>
       </div>
+    </div>
+  );
+}
+
+function MarkdownRenderer({ children }: { children: string }) {
+  return (
+    <div className="prose prose-sm dark:prose-invert max-w-none w-full">
+      <ReactMarkdown 
+        remarkPlugins={[remarkGfm]}
+        components={{
+          a: ({ ...props }) => (
+            <a target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium transition-colors" {...props} />
+          ),
+          table: ({ ...props }) => (
+            <div className="my-6 w-full overflow-hidden rounded-lg border bg-card shadow-sm">
+              <table className="w-full text-sm" {...props} />
+            </div>
+          ),
+          th: ({ ...props }) => (
+            <th className="bg-muted/50 px-4 py-3 text-left font-semibold text-muted-foreground" {...props} />
+          ),
+          td: ({ ...props }) => (
+            <td className="border-t border-border/50 px-4 py-3" {...props} />
+          ),
+          blockquote: ({ ...props }) => (
+            <blockquote className="border-l-4 border-primary bg-primary/5 px-4 py-3 rounded-r-lg italic text-foreground/80 my-4" {...props} />
+          ),
+          ul: ({ ...props }) => (
+            <ul className="list-disc list-inside space-y-1.5 my-4" {...props} />
+          ),
+          li: ({ ...props }) => (
+            <li className="text-foreground/90 leading-relaxed" {...props} />
+          )
+        }}
+      >
+        {children}
+      </ReactMarkdown>
     </div>
   );
 }
@@ -151,38 +189,29 @@ export function LessonPage() {
             <h2 className="text-xl font-semibold">{currentSection.title}</h2>
 
             {/* Render content with Markdown support */}
-            <div className="prose prose-sm dark:prose-invert max-w-none w-full">
-              <ReactMarkdown 
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  a: ({ ...props }) => (
-                    <a target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium transition-colors" {...props} />
-                  ),
-                  table: ({ ...props }) => (
-                    <div className="my-6 w-full overflow-hidden rounded-lg border bg-card shadow-sm">
-                      <table className="w-full text-sm" {...props} />
-                    </div>
-                  ),
-                  th: ({ ...props }) => (
-                    <th className="bg-muted/50 px-4 py-3 text-left font-semibold text-muted-foreground" {...props} />
-                  ),
-                  td: ({ ...props }) => (
-                    <td className="border-t border-border/50 px-4 py-3" {...props} />
-                  ),
-                  blockquote: ({ ...props }) => (
-                    <blockquote className="border-l-4 border-primary bg-primary/5 px-4 py-3 rounded-r-lg italic text-foreground/80 my-4" {...props} />
-                  ),
-                  ul: ({ ...props }) => (
-                    <ul className="list-disc list-inside space-y-1.5 my-4" {...props} />
-                  ),
-                  li: ({ ...props }) => (
-                    <li className="text-foreground/90 leading-relaxed" {...props} />
-                  )
-                }}
-              >
-                {currentSection.content}
-              </ReactMarkdown>
-            </div>
+            <MarkdownRenderer>{currentSection.content}</MarkdownRenderer>
+
+            {/* Tabs for branching paths */}
+            {currentSection.tabs && currentSection.tabs.length > 0 && (
+              <div className="mt-6 w-full">
+                <Tabs defaultValue={currentSection.tabs[0].id} className="w-full">
+                  <TabsList className="mb-4 flex-wrap h-auto">
+                    {currentSection.tabs.map((tab) => (
+                      <TabsTrigger key={tab.id} value={tab.id} className="flex-1 min-w-[150px]">
+                        {tab.title}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                  {currentSection.tabs.map((tab) => (
+                    <TabsContent key={tab.id} value={tab.id} className="focus-visible:outline-none focus-visible:ring-0">
+                      <div className="rounded-xl border bg-card p-6 shadow-sm">
+                        <MarkdownRenderer>{tab.content}</MarkdownRenderer>
+                      </div>
+                    </TabsContent>
+                  ))}
+                </Tabs>
+              </div>
+            )}
 
             {/* Code blocks */}
             {currentSection.codeBlocks?.map((block, i) => (
@@ -229,35 +258,7 @@ export function LessonPage() {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="pt-2 pb-4">
-                      <div className="prose prose-sm dark:prose-invert max-w-none w-full">
-                        <ReactMarkdown 
-                          remarkPlugins={[remarkGfm]}
-                          components={{
-                            a: ({ ...props }) => (
-                              <a target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium transition-colors" {...props} />
-                            ),
-                            table: ({ ...props }) => (
-                              <div className="my-4 w-full overflow-hidden rounded-lg border bg-card shadow-sm">
-                                <table className="w-full text-sm" {...props} />
-                              </div>
-                            ),
-                            th: ({ ...props }) => (
-                              <th className="bg-muted/50 px-4 py-2 text-left font-semibold text-muted-foreground" {...props} />
-                            ),
-                            td: ({ ...props }) => (
-                              <td className="border-t border-border/50 px-4 py-2" {...props} />
-                            ),
-                            ul: ({ ...props }) => (
-                              <ul className="list-disc list-inside space-y-1.5 my-2" {...props} />
-                            ),
-                            li: ({ ...props }) => (
-                              <li className="text-foreground/90 leading-relaxed" {...props} />
-                            )
-                          }}
-                        >
-                          {currentSection.solution}
-                        </ReactMarkdown>
-                      </div>
+                      <MarkdownRenderer>{currentSection.solution}</MarkdownRenderer>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

@@ -38,6 +38,12 @@ export interface LessonSection {
   steps?: string[];
   /** Optional solution text (markdown supported) for practice exercises */
   solution?: string;
+  /** Optional tabs for branching paths (e.g. different OS, different versions) */
+  tabs?: {
+    id: string;
+    title: string;
+    content: string;
+  }[];
 }
 
 export interface CodeBlock {
